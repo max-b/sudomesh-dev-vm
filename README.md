@@ -18,3 +18,25 @@ ssh root@192.168.1.13
 ```
 
 with a password: sudoer
+
+### Httpd configurations ###
+
+From a browser, if you navigate to 192.168.1.13, you should be presented with a login box. The user is "homeuser" and the password is "sudoer". This will eventually be the login that we would provide to home users-it will be different than the root account on the device.
+
+### Luci Development ###
+
+Luci is the framework that I think we'll be using to implement the web admin (and maybe some other things) on the router. Its a little tricky to navigate, parse, etc., but the learning curve isn't too bad. It's writeen in Lua, which is sort of a procedural language--it's kind of like javascript meets ruby (??), which has been pretty fun so far.
+
+One thing that threw me for a while was that it's a little tough to get the web server to show any changes you make. I had to add this code to the /etc/init.d/uhttpd file:
+
+```
+rm /var/luci-indexcache
+rm /var/luci-sessions/*
+rm /tmp/luci-modulecache/*
+```
+
+That way it will delete any of the cache and it will serve you fresh code everytime you:
+
+```
+/etc/init.d/uhttpd restart
+```
